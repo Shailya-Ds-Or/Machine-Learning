@@ -1,0 +1,325 @@
+Time Series Modelling
+_____________________
+	
+	In ML, Supervised learning
+	
+	Independent variable(s) | Dependent variable
+	
+For example : 
+
+	Suppose I am predicting an apple or an orange.
+
+	Color | Shape | Price | Place of origin | Target variable
+
+	Target_variable = f(Color, Shape, Price, Place of origin)
+	
+		y = f(x)
+
+	Time Series
+	___________
+
+
+		Even this TS has dependent and independent variables. But the only constraints
+	it has are  
+
+	a. The dependent variable should be a unit of time
+		Years, months, days, weeks, hours
+	
+	b. The dependent variable should be at regular time intervals
+		For example 
+			2012, 2013, 2014, 2015
+			I can not have 2012, 2013, 2015
+		Similarly : 
+			09:00 AM, 12:00 PM, 03:00 PM .....
+			09:00 PM, 10:30 PM, 11:30 PM... (Not regular time intervals)
+
+
+	Any variable(observation) recorder at regular time intervals can be called as a time
+	series problem
+
+		Suppose I am collecting weather data. To do so
+
+	I will take a sensor and try to install that at my rooftop. Every hour I fetch the 
+	values from my sensor. Since my weather is dependent on time
+
+		weather = f(time)
+		
+		23 -> 09:00 AM
+		28 -> 10:00 AM
+
+	
+	Need of Time Series models
+	__________________________
+
+	a. Seasonal patterns
+		For most of the business you will observe that there is a seasonal pattern. 
+	Seasonal pattern is a pattern observed at fixed time intervals
+
+	b. Evaluation
+		
+	c. Detection of Unusual Events
+
+	d. Forecast
+		
+		
+	Components of Time Series
+	__________________________
+
+
+	1. Systematic Time Series - A systematic TS is a TS where the components have certain
+		amount of consistency and these components can be modelled.
+
+	2. Non systematic - Where the components are inconsistent and can not be modelled
+
+		We are interested only in systematic TS
+
+	A systematic TS will have the components below :
+
+		a. Level(mean) : Average value of the series
+		b. Trend       : Increasing or decreasing value in series
+		c. Seasonality : Repeating short term cycles
+		d. Noise       : Random variations in series
+
+	To understand any time series we need to decompose the series.
+	Think of a series as combination of trend, seasonality and noise components. 
+
+	How can we combine these components to make a Time Series ?
+	______________________________________________________________
+
+
+	We can think of a TS as an aggregate or combination of these components. All the TS will have 		a level and a noise. The trend and seasonality are optional
+
+	There are two ways in which the components can be combined 
+
+	a. Additive Time Series
+	   _____________________
+
+		In this TS we try to add the components
+	
+		y = Level + Trend + Seasonality + Noise
+
+		The visual characteristics of this TS will be
+		
+		1. The series will be linear. The series will change linearly with time and 
+	 	    the changes will be consistent over time
+
+		2. The trend is also linear (straight line)
+	
+		3. The seasonality will also be linear ( same frequency and same amplitude)
+
+	b. Multiplicative Time Series
+	  ____________________________ 
+
+
+		y = Level * Trend * Seasonality * Noise
+
+		The visual characteristics of this TS will be
+		
+		1. The series will be non linear. The series will change non linearly with time and 
+	 	    the changes will be in-consistent over time
+
+		2. The trend is also non-linear (curved line)
+	
+		3. The seasonality will also be non linear ( increasing/decreasing frequency 
+			and increasing/decreasing amplitude)
+
+
+
+
+		Real world problems 99% times you will observe a TS which is a mix of additive
+		and multiplicative.
+
+		Decompose the TS into different components and try to capture the variations
+		in each component individually.
+
+
+		A | B | C | D | E | F | Target
+
+		Linear Regression
+	
+		A, B and C are heavily correlated
+
+ 		Why do we run a linear regression ?
+		To find the effect of each variable on the 
+		target variable. 
+		The coefficients are responsible for explaining the 
+		relevance of each variable to the target variable
+
+	
+		These coefficients are not reliable, not stable
+
+
+		Ankit - IO
+
+		Wajahat | Shubham | Vijay | Gairik | Rehana  - Witness to the crime
+
+		
+		Stationary time Series can be achieved using 
+		
+
+		1. Differencing
+		2. Decomposition
+		3. Transformation
+
+		Assuming you have a stationary Time Series
+
+		Now we can start implementing models
+
+
+		1. Next value = Prvs value
+		2. Moving average of past few values
+		3. Weighted average of past few values
+
+			1. What should be the weightage?
+			2. How many values ?
+
+			Intuitively you can assign weights, select values
+
+		But will that be optimal ? May be Yes may be no. How to find the optimal 
+		weights ?
+
+
+		Sales Day before	|	Sales yesterday		|	Sales today
+
+
+
+
+		|..| y(t-5) | y(t-4) | y(t-3) | y(t-2) | y(t-1) | y
+
+
+
+		You are regressing over its own past values. Since it is regressing over its own
+		values it is called as autoregression
+
+		AR, MA, ARMA - Use on TS without trend and seasonality
+
+		ARIMA - can capture the trend but not seasonality. 
+
+		SARIMA - Captures trend and seasonality
+
+
+		P - order of autoregressive
+		q - order of MA
+
+		ACF and PACF
+		_____________
+
+
+		Correlation is defined as the relationship between two variables. When I say auto-
+		correlation, it is the correlation between two observations which are from the same
+		variable but at different time steps. 
+		
+		In TS the data correlates with themselves and hence we have the name auto. To 
+		calculate the correlation we use the term called as lags. 
+
+		What are lags ?
+
+		Suppose you record a time series data at different intervals. The number of intervals
+		between the two observations(under study) are called as lags.
+
+		TS
+
+		1 - Jan    45
+		1 - Feb    43
+		1 - Mar    34
+		1 - Apr    30
+
+			1-Jan and 1-Apr then the lag is 2
+
+		In mathematics, the observation at time t is y(t) and y(t-k) are separated by k
+		time units. K is the lag here over here.
+
+		Correlation between y(t) and y(t-k) - autocorrelation
+		
+		The function to identify the lags which have siginificant correlations is called as 
+		autocorrelation 
+		We can identify this using a acf plot
+
+
+		Partial Autocorrelation
+		_______________________
+
+			Similar to ACF, the only exception here is that the correlation under 
+		observations is only between those observations which are at different lags.
+		
+
+		
+		Use Partial Autocorrelation function to identify order of AR 
+		    Autocorrelation to udentify order of MA
+
+
+		
+			
+
+		
+
+
+
+
+
+				
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+		
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+	
